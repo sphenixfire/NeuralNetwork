@@ -16,5 +16,11 @@ namespace NeuralNetwork
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var x = new NeuralNetwork(5, 5, 5, 0.4);
+
+        }
     }
 }
