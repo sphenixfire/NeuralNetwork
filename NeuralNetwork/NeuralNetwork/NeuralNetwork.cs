@@ -11,12 +11,15 @@ namespace NeuralNetwork
 {
     public class NeuralNetwork
     {
+        // Node counts in input-, hidden-, outputlayer
         private int _inodescount;
         private int _hnodescount;
         private int _onodescount;
+        // Learnrate of the network
         private double _learnrate;
-        private MathNet.Numerics.LinearAlgebra.Matrix<double> _wih;
-        private Matrix _who;
+        // Weight matrix between i-nput and h-idden layer and between h-idden and o-utputlayer
+        private Matrix<double> _wih;
+        private Matrix<double> _who;
         
 
         /// <summary>
@@ -46,6 +49,14 @@ namespace NeuralNetwork
                 );
         }
 
-
+        /// <summary>
+        /// Activation function of nodes.
+        /// </summary>
+        /// <param name="input">Input value of node (sum of all weighted inputs).</param>
+        /// <returns>Output of the neuron.</returns>
+        protected double activateNeuron(double input)
+        {
+            return NeuralMath.getSigmoid(input);
+        }
     }
 }
