@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Distributions;
 
@@ -40,13 +41,23 @@ namespace NeuralNetwork
             this._wih = Matrix<double>.Build.Dense(
                 this._hnodescount,
                 this._inodescount,
-                Normal.WithMeanStdDev(0.0, 1 / Math.Sqrt(this._hnodescount)).Sample()
+                Normal.WithMeanStdDev(0.0, 1 / Math.Sqrt(this._hnodescount), new Random(DateTime.Now.Millisecond* DateTime.Now.Minute)).Sample()
                 );
             this._who = Matrix<double>.Build.Dense(
                 this._onodescount,
                 this._hnodescount,
-                Normal.WithMeanStdDev(0.0, 1 / Math.Sqrt(this._onodescount)).Sample()
+                Normal.WithMeanStdDev(0.0, 1 / Math.Sqrt(this._onodescount), new Random(DateTime.Now.Millisecond * DateTime.Now.Minute)).Sample()
                 );
+            // ============ HIER AUFGEHÖRT - Test der Klasse inkl. input erstellen (ausgelöst durch buttonklick). initialwerte des gewichte sind immer identisch. zufalls gen funktioniert nicht.
+        }
+
+        /// <summary>
+        /// Creates an Input-List based on neural network nodecount
+        /// </summary>
+        /// <returns>Arraylist in proper length</returns>
+        public NeuralInput getNeuralInputContainer()
+        {
+            return new NeuralInput(this._inodescount);
         }
 
         /// <summary>
