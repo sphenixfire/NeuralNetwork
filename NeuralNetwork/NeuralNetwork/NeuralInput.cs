@@ -22,7 +22,7 @@ namespace NeuralNetwork
         {
             this._inputlist = Matrix<double>.Build.Dense(nodecount, 1, 0.01);
         }
-
+        
         /// <summary>
         /// Sets an input node value.
         /// </summary>
@@ -30,7 +30,7 @@ namespace NeuralNetwork
         /// <param name="val">The value to set.</param>
         public void setNode(int nodeid, double val)
         {
-            this._inputlist[nodeid, 1] = val;
+            this._inputlist[nodeid, 0] = val;
         }
 
         /// <summary>

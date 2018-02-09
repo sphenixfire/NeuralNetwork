@@ -37,18 +37,32 @@ namespace NeuralNetwork
             this._onodescount = onodescount;
             this._learnrate = learnreate;
             
+            // Generates probability values based on normal distribution
+            Normal norgen = Normal.WithMeanStdDev(0.0, 1 / Math.Sqrt(this._hnodescount), new Random(DateTime.Now.Millisecond * DateTime.Now.Minute));
+
             // Initialize weight with normal distribution, center 0, stddev 1/sqrt(x) 
             this._wih = Matrix<double>.Build.Dense(
                 this._hnodescount,
-                this._inodescount,
-                Normal.WithMeanStdDev(0.0, 1 / Math.Sqrt(this._hnodescount), new Random(DateTime.Now.Millisecond* DateTime.Now.Minute)).Sample()
+                this._inodescount
                 );
+            for(int i=0;i < this._wih.ColumnCount; i++)
+            {
+                for (int j = 0; j < this._wih.RowCount; j++)
+                {
+                    this._wih[i, j] = norgen.Sample();
+                }
+            }
             this._who = Matrix<double>.Build.Dense(
                 this._onodescount,
-                this._hnodescount,
-                Normal.WithMeanStdDev(0.0, 1 / Math.Sqrt(this._onodescount), new Random(DateTime.Now.Millisecond * DateTime.Now.Minute)).Sample()
+                this._hnodescount
                 );
-            // ============ HIER AUFGEHÖRT - Test der Klasse inkl. input erstellen (ausgelöst durch buttonklick). initialwerte des gewichte sind immer identisch. zufalls gen funktioniert nicht.
+            for (int i = 0; i < this._who.ColumnCount; i++)
+            {
+                for (int j = 0; j < this._who.RowCount; j++)
+                {
+                    this._who[i, j] = norgen.Sample();
+                }
+            }
         }
 
         /// <summary>

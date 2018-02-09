@@ -28,7 +28,7 @@ namespace NeuralNetwork
             // Fill with testdata
             for(int i=0;i < input.nodecount; i++)
             {
-                input.setNode(i, (rnd.Next(1, 999)/1000));
+                input.setNode(i, ((double)rnd.Next(1, 999)/1000.0));
             }
 
         }
