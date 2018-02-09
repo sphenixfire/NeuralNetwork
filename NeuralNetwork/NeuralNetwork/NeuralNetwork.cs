@@ -45,9 +45,9 @@ namespace NeuralNetwork
                 this._hnodescount,
                 this._inodescount
                 );
-            for(int i=0;i < this._wih.ColumnCount; i++)
+            for(int i=0;i < this._wih.RowCount; i++)
             {
-                for (int j = 0; j < this._wih.RowCount; j++)
+                for (int j = 0; j < this._wih.ColumnCount; j++)
                 {
                     this._wih[i, j] = norgen.Sample();
                 }
@@ -56,9 +56,9 @@ namespace NeuralNetwork
                 this._onodescount,
                 this._hnodescount
                 );
-            for (int i = 0; i < this._who.ColumnCount; i++)
+            for (int i = 0; i < this._who.RowCount; i++)
             {
-                for (int j = 0; j < this._who.RowCount; j++)
+                for (int j = 0; j < this._who.ColumnCount; j++)
                 {
                     this._who[i, j] = norgen.Sample();
                 }
@@ -69,19 +69,49 @@ namespace NeuralNetwork
         /// Creates an Input-List based on neural network nodecount
         /// </summary>
         /// <returns>Arraylist in proper length</returns>
-        public NeuralInput getNeuralInputContainer()
+        public NeuralInOutput getNeuralInputContainer()
         {
-            return new NeuralInput(this._inodescount);
+            return new NeuralInOutput(this._inodescount);
         }
 
         /// <summary>
-        /// Activation function of nodes.
+        /// Creates an output list based on the network by the network.
         /// </summary>
-        /// <param name="input">Input value of node (sum of all weighted inputs).</param>
-        /// <returns>Output of the neuron.</returns>
-        protected double activateNeuron(double input)
+        /// <returns>The empty output list.</returns>
+        protected NeuralInOutput getNeuralOutput()
         {
-            return NeuralMath.getSigmoid(input);
+            return new NeuralInOutput(this._onodescount);
+        }
+
+        /// <summary>
+        /// Applies activation function to a node layer.
+        /// </summary>
+        /// <param name="input">Input of the layer.</param>
+        /// <returns>Output of the layer.</returns>
+        protected Matrix<double> activateNeurons(Matrix<double> input)
+        {
+            for(int i=0;i < input.RowCount; i++)
+            {
+                input[i, 0] = NeuralMath.getSigmoid(input[i, 0]);
+            }
+            return input;
+        }
+
+        /// <summary>
+        /// Queries the network with an input.
+        /// </summary>
+        /// <param name="input">The input for the network.</param>
+        /// <returns>The output of the network.</returns>
+        public NeuralInOutput queryNetwork(NeuralInOutput input)
+        {
+            // Converts container to Matrix
+            Matrix<double> inputnodes = input.getNodelist();
+            // Calculates the input of the hidden layer and applies the activation functions which results in output of hidden layer.
+            Matrix<double> hiddennodesout = this.activateNeurons(this._wih.Multiply(inputnodes));
+            // Calculates the input of the output layer and applies the activation functions which results in output of output layer.
+            Matrix<double> outputnodesout = this.activateNeurons(this._who.Multiply(hiddennodesout));
+
+            return new NeuralInOutput(outputnodesout);
         }
     }
 }

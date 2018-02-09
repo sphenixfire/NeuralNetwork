@@ -22,15 +22,16 @@ namespace NeuralNetwork
             // for testing
             Random rnd = new Random(DateTime.Now.Millisecond);
             // Setup the network
-            var neuralnet = new NeuralNetwork(5, 5, 5, 0.4);
+            var neuralnet = new NeuralNetwork(5, 4, 3, 0.3);
             // get input vector/matrix from network in proper size
-            NeuralInput input = neuralnet.getNeuralInputContainer();
+            NeuralInOutput input = neuralnet.getNeuralInputContainer();
             // Fill with testdata
             for(int i=0;i < input.nodecount; i++)
             {
                 input.setNode(i, ((double)rnd.Next(1, 999)/1000.0));
             }
-
+            // Query the network
+            NeuralInOutput output = neuralnet.queryNetwork(input);
         }
     }
 }
